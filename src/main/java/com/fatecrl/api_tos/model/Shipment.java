@@ -62,7 +62,7 @@ public class Shipment {
         this.containers = containers;
     }
 
-    
+
     @Override
     public int hashCode() {
         final int prime = 31;
