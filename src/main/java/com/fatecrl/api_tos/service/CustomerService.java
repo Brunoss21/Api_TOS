@@ -1,53 +1,56 @@
 package com.fatecrl.api_tos.service;
 
-import org.hibernate.mapping.List;
+import java.util.List;
+import java.util.Optional; // Corrigido
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.stereotype.Service;
 import com.fatecrl.api_tos.model.Customer;
+import com.fatecrl.api_tos.repository.CustomerRepository;
 
+@Service
 public class CustomerService {
-
-    public void deleteCustomer(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteCustomer'");
-    }
-
-    public Customer updateStatus(Long id, String status) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updateStatus'");
-    }
-
-    public boolean updateCustomer(Customer customer) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updateCustomer'");
-    }
-
-    public void saveCustomer(Customer customer) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'saveCustomer'");
-    }
-
-    public java.util.List<Customer> findCustumerByName(String name) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findCustumerByName'");
-    }
-
-    public java.util.List<Customer> getAllCustomers() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAllCustomers'");
-    }
-
-    public Customer getCustomerByid(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getCustomerByid'");
-    }
-
-    public boolean checkPendingOperations(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'checkPendingOperations'");
-    }
-
-    @Autowired
-    private CustomerRepository CustomerRepository;
     
+    @Autowired
+    private CustomerRepository customerRepository;
+
+    public Customer save(Customer customer) {
+        return customerRepository.save(customer);
+    }
+
+    public List<Customer> findAll() {
+        return customerRepository.findAll(); 
+    }
+
+    public Customer findById(Long id) {
+        return customerRepository.findById(id).orElse(null);
+    }
+
+    public List<Customer> findByName(String name) {
+        return (List<Customer>) customerRepository.findByName(name);
+    }
+
+    public Customer updateCustomer(Long id, Customer customerDetails){
+        Customer customer = findById(id);
+        if (customer != null){
+            customer.setName((customerDetails.getName()));
+            customer.setLastName(customerDetails.getLastName());
+            customer.setAddress(customerDetails.getAddress());
+            customer.setCity(customerDetails.getCity());
+            customer.setState(customerDetails.getState());
+            customer.setCountry(customerDetails.getCountry());
+            customer.setBirthdate(customerDetails.getBirthdate());
+            customer.setStatus(customerDetails.getStatus());
+            return customerRepository.save(customer);
+        }
+        return null;
+    }
+
+    public boolean deleteCustomer(Long id) {
+        if (customerRepository.existsById(id)) {
+            customerRepository.deleteById(id);
+            return true;
+        }
+        return false;
+    }
+
 }

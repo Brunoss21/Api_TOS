@@ -1,6 +1,7 @@
 package com.fatecrl.api_tos.model;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class Shipment {
     private long id;

@@ -16,11 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fatecrl.api_tos.model.Ship;
 import com.fatecrl.api_tos.service.ShipService;
 
-@RestController
-@RequestMapping("/api/ships")
 public class ShipController {
 
-    @Autowired
+   /*  @Autowired
     private ShipService shipService;
 
     @GetMapping
@@ -54,5 +52,5 @@ public class ShipController {
     }
 
 
-    
+  */  
 }

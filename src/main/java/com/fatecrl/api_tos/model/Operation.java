@@ -1,8 +1,9 @@
 package com.fatecrl.api_tos.model;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
-import org.hibernate.mapping.List;
+
 
 
 public class Operation {
