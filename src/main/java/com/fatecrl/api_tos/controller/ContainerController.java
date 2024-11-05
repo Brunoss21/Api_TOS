@@ -62,7 +62,10 @@ public class ContainerController {
     @PatchMapping("/{id}/status")
     public ResponseEntity<Container> updateContainerStatus(@PathVariable Long id, @RequestBody String status) {
         Container updatedContainer = containerService.updateContainerStatus(id, status); 
-        return updatedContainer != null ? ResponseEntity.ok(updatedContainer) : ResponseEntity.notFound().build();
+        if (updatedContainer != null ){
+            return ResponseEntity.ok(updatedContainer); 
+        }
+           return ResponseEntity.notFound().build();
     }
 }
     

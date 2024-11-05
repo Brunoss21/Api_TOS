@@ -1,56 +1,53 @@
 package com.fatecrl.api_tos.controller;
 
-import java.util.List;
-
+import com.fatecrl.api_tos.model.Ship;
+import com.fatecrl.api_tos.service.ShipService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import com.fatecrl.api_tos.model.Ship;
-import com.fatecrl.api_tos.service.ShipService;
+import java.util.Optional;
 
+@RestController
+@RequestMapping("/ships")
 public class ShipController {
 
-   /*  @Autowired
+    @Autowired
     private ShipService shipService;
 
-    @GetMapping
-    public List<Ship> getAllShips(){
-        return shipService.findAllShips();
-    }
-
     @GetMapping("/{id}")
-    public ResponseEntity<Ship> getShipById(@PathVariable Long id){
-        return shipService.findShipByid(id)
-                .map(ship -> ResponseEntity.ok().body(ship))
-                .orElse(ResponseEntity.notFound().build());
-    }
-
-    @GetMapping("/nameship/{nameShip}")
-    public List<Ship> getShipsByName(@PathVariable String nameShip){
-        return shipService.findShipByName(nameShip);
-
+    public ResponseEntity<Ship> getShipById(@PathVariable Long id) {
+        Optional<Ship> ship = shipService.getShipById(id);
+        return ship.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public ResponseEntity<Ship> createShip(@RequestBody Ship ship){
-        Ship createdShip = shipService.saveShip(ship);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdShip);
-
+    public ResponseEntity<Ship> createShip(@RequestBody Ship ship) {
+        Ship newShip = shipService.createShip(ship);
+        return ResponseEntity.status(HttpStatus.CREATED).body(newShip);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Ship> updateShip(@PathVariable Long id, @RequestBody Ship ship){
-        
+    /*@DeleteMapping("/{id}")
+    public ResponseEntity<Void> inactivateShip(@PathVariable Long id) {
+        try {
+            shipService.inactivateShip(id);
+            return ResponseEntity.noContent().build();
+        } catch (IllegalStateException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
-
-  */  
+    /*@PutMapping("/{id}")
+    public ResponseEntity<Ship> updateShip(@PathVariable Long id, @RequestBody Ship updatedShip) {
+        try {
+            Ship ship = shipService.updateShip(id, updatedShip);
+            return ResponseEntity.ok(ship);
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }*/
 }

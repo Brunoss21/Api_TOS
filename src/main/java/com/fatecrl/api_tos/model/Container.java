@@ -2,18 +2,20 @@ package com.fatecrl.api_tos.model;
 
 import java.time.LocalDateTime;
 
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+
 
 @Entity
 public class Container {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    
     private Long id;
+    
     private String containerNumber;
     private String type;
     private String status;
@@ -21,48 +23,63 @@ public class Container {
     private Double weight;
     private LocalDateTime arrivalDate;
     
-    public Long getId() {
-        return id;
-    }
-    public void setId(Long id) {
-        this.id = id;
-    }
-    public String getContainerNumber() {
-        return containerNumber;
-    }
-    public void setContainerNumber(String containerNumber) {
-        this.containerNumber = containerNumber;
-    }
-    public String getType() {
-        return type;
-    }
-    public void setType(String type) {
-        this.type = type;
-    }
-    public String getStatus() {
-        return status;
-    }
-    public void setStatus(String status) {
-        this.status = status;
-    }
-    public String getLocation() {
-        return location;
-    }
-    public void setLocation(String location) {
-        this.location = location;
-    }
-    public Double getWeight() {
-        return weight;
-    }
-    public void setWeight(Double weight) {
-        this.weight = weight;
-    }
-    public LocalDateTime getArrivalDate() {
-        return arrivalDate;
-    }
-    public void setArrivalDate(LocalDateTime arrivalDate) {
-        this.arrivalDate = arrivalDate;
-    }
+        public Long getId() {
+            return id;
+        }
+        
+        public void setId(Long id) {
+            this.id = id;
+        }
+        
+        public String getContainerNumber() {
+            return containerNumber;
+        }
+        
+        public void setContainerNumber(String containerNumber) {
+            this.containerNumber = containerNumber;
+        }
+        
+        public String getType() {
+            return type;
+        }
+        
+        public void setType(String type) {
+            this.type = type;
+        }
+        
+        public String getStatus() {
+            return status;
+        }
+        
+        public void setStatus(String status) {
+            this.status = status;
+        }
+        
+        public String getLocation() {
+            return location;
+        }
+        
+        public void setLocation(String location) {
+            this.location = location;
+        }
+        
+        public Double getWeight() {
+            return weight;
+        }
+        
+        public void setWeight(Double weight) {
+            this.weight = weight;
+        }
+        
+        public LocalDateTime getArrivalDate() {
+            return arrivalDate;
+        }
+        
+        public void setArrivalDate(LocalDateTime arrivalDate) {
+            this.arrivalDate = arrivalDate;
+        }
+        
+    
 
     @Override
     public int hashCode() {
@@ -88,5 +105,4 @@ public class Container {
             return false;
         return true;
     }
-    
 }
