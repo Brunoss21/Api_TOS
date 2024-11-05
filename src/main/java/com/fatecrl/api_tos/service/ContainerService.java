@@ -62,6 +62,17 @@ public class ContainerService {
         }
         return null; 
     }
+
+    public String deleteContainer(Long id) {
+        Optional<Container> optionalContainer = containerRepository.findById(id);
+        if (optionalContainer.isPresent()){
+            Container container = optionalContainer.get();
+            container.setStatus("Inativo");
+            containerRepository.save(container);
+            return "O container foi desativado com sucesso.";
+        }
+        return "Container não encontrado";
+    }
 }
 
     
