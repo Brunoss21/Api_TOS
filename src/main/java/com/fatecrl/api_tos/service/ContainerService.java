@@ -27,17 +27,6 @@ public class ContainerService {
         return containerRepository.findById(id).orElse(null);
     }
 
-    public boolean containerInactive(long id) {
-        Optional<Container> optionalContainer = containerRepository.findById(id);
-        if (optionalContainer.isPresent()){
-            Container container = optionalContainer.get();
-            container.setStatus("Inativo");
-            containerRepository.save(container);
-            return true;
-        }
-        return false;
-
-    }
 
     public Container updateContainer(Long id, Container containerDetails) {
         Optional<Container> optionalContainer = containerRepository.findById(id);
@@ -53,14 +42,15 @@ public class ContainerService {
         return null; 
     }
 
-    public Container updateContainerStatus(Long id, String status) {
+    public String updateContainerStatus(Long id, String status) {
         Optional<Container> optionalContainer = containerRepository.findById(id);
         if (optionalContainer.isPresent()) {
             Container container = optionalContainer.get();
             container.setStatus(status); 
-            return containerRepository.save(container); 
+            containerRepository.save(container); 
+            return "Status Container atulizado com sucesso.";
         }
-        return null; 
+        return "Erro ao atualizar status do container"; 
     }
 
     public String deleteContainer(Long id) {

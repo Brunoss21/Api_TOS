@@ -3,6 +3,7 @@ package com.fatecrl.api_tos.controller;
 import java.net.URI;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -39,18 +40,31 @@ public class CustomerController {
         return ResponseEntity.created(location).body(savedCustomer);
     }
 
+
     @PutMapping("/{id}")
     public ResponseEntity<Customer> updateCustumer(@PathVariable Long id, @RequestBody Customer customerDetails){
         Customer updatedCustomer = customerService.updateCustomer(id,customerDetails);
         return updatedCustomer != null ? ResponseEntity.ok(updatedCustomer) : ResponseEntity.notFound().build();
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCustomer(@PathVariable Long id){
-        boolean deleted = customerService.deleteCustomer(id);
-        return deleted ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<String> updateCustomerStatus(@PathVariable Long id, @RequestBody String status){
+        String updatedCustomer = customerService.updateCustomerStatus(id, status);
+        if (updatedCustomer != null){
+            return ResponseEntity.ok(updatedCustomer);
+        }
+        return ResponseEntity.notFound().build();
     }
-    
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteCustomer(@PathVariable Long id) {
+        String result = customerService.deleteCustumer(id);
+        if (result.equals("Cliente desativado com sucesso")){
+            return ResponseEntity.ok().body("{\"message\": \"" + result + "\"}");
+        }
+         return ResponseEntity.status(HttpStatus.NOT_FOUND)
+            .body("{\"error\": \"Cliente não encontrado.\"}");
+    }
 }
 
 

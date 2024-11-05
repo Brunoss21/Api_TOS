@@ -1,9 +1,11 @@
 package com.fatecrl.api_tos.service;
 
 import java.util.List;
-import java.util.Optional; // Corrigido
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.fatecrl.api_tos.model.Customer;
 import com.fatecrl.api_tos.repository.CustomerRepository;
 
@@ -45,12 +47,27 @@ public class CustomerService {
         return null;
     }
 
-    public boolean deleteCustomer(Long id) {
-        if (customerRepository.existsById(id)) {
-            customerRepository.deleteById(id);
-            return true;
+    public String updateCustomerStatus(Long id, String status) {
+        Optional<Customer> optionalCustumer = customerRepository.findById(id);
+        if(optionalCustumer.isPresent()) {
+            Customer customer = optionalCustumer.get();
+            customer.setStatus(status);
+            customerRepository.save(customer);
+            return "Status atualizado com sucesso.";
         }
-        return false;
+        return "Erro ao atualizar status do cliente";
     }
 
+    public String deleteCustumer(Long id) {
+        Optional<Customer> optionalCustomer = customerRepository.findById(id);
+        if (optionalCustomer.isPresent()){
+            Customer customer = optionalCustomer.get();
+            customer.setStatus("Inativo");
+            customerRepository.save(customer);
+            return "O cliente foi desativado com sucesso.";
+        }
+        return "Cliente não encontrado";
+    }
 }
+
+
