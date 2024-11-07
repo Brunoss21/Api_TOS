@@ -1,6 +1,7 @@
 package com.fatecrl.api_tos.dto;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class OperationDTO {
@@ -10,7 +11,7 @@ public class OperationDTO {
     private LocalDateTime operationEnd;
     private String status;
     private String shipOperation;
-    private List<Long> containerIds;
+    private List<Long> containerIds = new ArrayList<>();
 
     public String getOperationType() {
         return operationType;
