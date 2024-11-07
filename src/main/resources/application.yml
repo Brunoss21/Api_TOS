@@ -1,22 +1,26 @@
 spring:
-    application:
-        name: tos
-    datasource:
-        url: jdbc:postgresql://localhost:5432/tos_fatec
-        username: postgres
-        password: 3024
-    jpa:
-        hibernate:
-            ddl-auto: create
-        show-sql: true
-        properties:
-            hibernate:
-                format_sql: true
+  application:
+    name: tos
+  datasource:
+    url: jdbc:postgresql://localhost:5432/tos_fatec
+    username: postgres
+    password: 3024
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
 server:
-    servlet: 
-        contextPath: /api
-    port: 8080  
-       
+  servlet: 
+    context-path: /api  
+  port: 8080  
+
 springdoc:
-    api-docs:
-        path: /api-docs
+  api-docs:
+    path: /api-docs 
+  swagger-ui:
+    enabled: true  
+    path: /swagger-ui.html 
