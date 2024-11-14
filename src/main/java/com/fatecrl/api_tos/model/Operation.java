@@ -96,12 +96,13 @@ public class Operation {
             }
         
             public List<Container> getContainers() {
-                return getContainers(); 
+                return containers; 
             }
-        
+            
             public void setContainers(List<Container> containers) { 
-    }
-    
+                this.containers = containers;
+            }
+            
     @Override
     public int hashCode() {
         final int prime = 31;

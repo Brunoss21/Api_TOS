@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import com.fatecrl.api_tos.dto.OperationDTO;
 import com.fatecrl.api_tos.model.Container;
 import com.fatecrl.api_tos.model.Operation;
-import com.fatecrl.api_tos.repository.ContainerRepository; // Importar ContainerRepository
+import com.fatecrl.api_tos.repository.ContainerRepository; 
 import com.fatecrl.api_tos.repository.OperationRepository;
 
 @Service
@@ -21,7 +21,7 @@ public class OperationService {
     private OperationRepository operationRepository;
 
     @Autowired
-    private ContainerRepository containerRepository; // Adicionar injeção do ContainerRepository
+    private ContainerRepository containerRepository;
 
     // Buscar operações por data ou status
     public List<Operation> findByDateOrStatus(LocalDateTime date, String status) {
