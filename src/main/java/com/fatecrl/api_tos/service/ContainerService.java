@@ -19,14 +19,13 @@ public class ContainerService {
         return containerRepository.save(container);
     }
 
-    public List<Container> findAll(){
+    public List<Container> findAll() {
         return containerRepository.findAll();
     }
 
     public Container findById(Long id) {
         return containerRepository.findById(id).orElse(null);
     }
-
 
     public Container updateContainer(Long id, Container containerDetails) {
         Optional<Container> optionalContainer = containerRepository.findById(id);
@@ -39,23 +38,23 @@ public class ContainerService {
             container.setArrivalDate(containerDetails.getArrivalDate());
             return containerRepository.save(container);
         }
-        return null; 
+        return null;
     }
 
     public String updateContainerStatus(Long id, String status) {
         Optional<Container> optionalContainer = containerRepository.findById(id);
         if (optionalContainer.isPresent()) {
             Container container = optionalContainer.get();
-            container.setStatus(status); 
-            containerRepository.save(container); 
-            return "Status Container atulizado com sucesso.";
+            container.setStatus(status);
+            containerRepository.save(container);
+            return "Status Container atualizado com sucesso.";
         }
-        return "Erro ao atualizar status do container"; 
+        return "Erro ao atualizar status do container";
     }
 
     public String deleteContainer(Long id) {
         Optional<Container> optionalContainer = containerRepository.findById(id);
-        if (optionalContainer.isPresent()){
+        if (optionalContainer.isPresent()) {
             Container container = optionalContainer.get();
             container.setStatus("Inativo");
             containerRepository.save(container);
@@ -63,7 +62,13 @@ public class ContainerService {
         }
         return "Container não encontrado";
     }
+
+    // Novo método para buscar contêineres por ID, Status ou Cliente
+    public List<Container> findContainersByCriteria(Long id, String status, Long customerId) {
+        return containerRepository.findContainersByCriteria(id, status, customerId);
+    }
 }
+
 
     
 

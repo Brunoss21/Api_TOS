@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -26,53 +27,73 @@ public class ContainerController {
     @Autowired
     private ContainerService containerService;
 
+    // Lista todos os contêineres
     @GetMapping
-    public List<Container> getAllContainers(){
+    public List<Container> getAllContainers() {
         return containerService.findAll();
     }
 
+    // Busca um container por ID
     @GetMapping("/{id}")
     public ResponseEntity<Container> findContainerById(@PathVariable Long id) {
         Container container = containerService.findById(id);
         return container != null ? ResponseEntity.ok(container) : ResponseEntity.notFound().build();
     }
 
+    // Cria um novo container
     @PostMapping
     public ResponseEntity<Container> createContainer(@RequestBody Container container) {
-        Container savedContainer = containerService.save(container); 
+        Container savedContainer = containerService.save(container);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(savedContainer.getId()) 
+                .buildAndExpand(savedContainer.getId())
                 .toUri();
         return ResponseEntity.created(location).body(savedContainer);
     }
 
+    // Rota para desativar um contêiner
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteContainer(@PathVariable Long id) {
         String result = containerService.deleteContainer(id);
-        if (result.equals("Container desativado com sucesso")){
+        if (result.equals("O container foi desativado com sucesso.")) {
             return ResponseEntity.ok().body("{\"message\": \"" + result + "\"}");
         }
-         return ResponseEntity.status(HttpStatus.NOT_FOUND)
-            .body("{\"error\": \"Container não encontrado.\"}");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body("{\"error\": \"Container não encontrado.\"}");
     }
 
+    // Rota para atualizar um contêiner
     @PutMapping("/{id}")
     public ResponseEntity<Container> updateContainer(@PathVariable Long id, @RequestBody Container containerDetails) {
-        Container updatedContainer = containerService.updateContainer(id, containerDetails); 
+        Container updatedContainer = containerService.updateContainer(id, containerDetails);
         return updatedContainer != null ? ResponseEntity.ok(updatedContainer) : ResponseEntity.notFound().build();
     }
 
+    // Rota para atualizar o status de um contêiner
     @PatchMapping("/{id}/status")
     public ResponseEntity<String> updateContainerStatus(@PathVariable Long id, @RequestBody String status) {
-        String updatedContainer = containerService.updateContainerStatus(id, status); 
-        if (updatedContainer != null ){
-            return ResponseEntity.ok(updatedContainer); 
+        String updatedContainer = containerService.updateContainerStatus(id, status);
+        if (updatedContainer != null) {
+            return ResponseEntity.ok(updatedContainer);
         }
-           return ResponseEntity.notFound().build();
+        return ResponseEntity.notFound().build();
+    }
+
+    // Novo endpoint para buscar contêineres por ID, Status ou Cliente
+    @GetMapping("/buscar")
+    public ResponseEntity<List<Container>> searchContainers(
+            @RequestParam(required = false) Long id,
+            @RequestParam(required = false) String status,
+            @RequestParam(required = false) Long customerId) {
+
+        List<Container> containers = containerService.findContainersByCriteria(id, status, customerId);
+        if (containers.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(containers);
     }
 }
-    
+
     
 
