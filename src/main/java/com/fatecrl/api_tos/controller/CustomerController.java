@@ -46,8 +46,8 @@ public class CustomerController {
 
     // PUT - Atualizar as informações completas de um cliente
     @PutMapping("/{id}")
-    public ResponseEntity<Customer> updateCustomer(@PathVariable Long id, @RequestBody Customer customerDetails) {
-        Customer updatedCustomer = customerService.updateCustomer(id, customerDetails);
+    public ResponseEntity<String> updateCustomer(@PathVariable Long id, @RequestBody Customer customerDetails) {
+        String updatedCustomer = customerService.updateCustomer(id, customerDetails);
         return updatedCustomer != null ? ResponseEntity.ok(updatedCustomer) : ResponseEntity.notFound().build();
     }
 

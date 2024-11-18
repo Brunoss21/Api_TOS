@@ -40,7 +40,7 @@ public class ShipService {
     }
 
     // Atualiza navio
-    public Ship updateShip(Long id, Ship updatedShip) {
+    public String updateShip(Long id, Ship updatedShip) {
         Optional<Ship> existingShip = shipRepository.findById(id);
         if (existingShip.isPresent()) {
             Ship ship = existingShip.get();
@@ -51,9 +51,10 @@ public class ShipService {
             ship.setCapacity(updatedShip.getCapacity());
             ship.setArrivalDate(updatedShip.getArrivalDate());
             ship.setDepartureDate(updatedShip.getDepartureDate());
-            return shipRepository.save(ship);
+            shipRepository.save(ship);
+            return "Navio atualizado com sucesso.";
         }
-        return null; 
+        return "Erro ao atualizar navio"; 
     }
     
 

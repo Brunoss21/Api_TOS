@@ -52,7 +52,7 @@ public class ContainerController {
         return ResponseEntity.created(location).body(savedContainer);
     }
 
-    // Rota para desativar um contêiner
+    // Desativa um container
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteContainer(@PathVariable Long id) {
         String result = containerService.deleteContainer(id);
@@ -63,14 +63,14 @@ public class ContainerController {
                 .body("{\"error\": \"Container não encontrado.\"}");
     }
 
-    // Rota para atualizar um contêiner
+    //Atualiza um container
     @PutMapping("/{id}")
-    public ResponseEntity<Container> updateContainer(@PathVariable Long id, @RequestBody Container containerDetails) {
-        Container updatedContainer = containerService.updateContainer(id, containerDetails);
+    public ResponseEntity<String> updateContainer(@PathVariable Long id, @RequestBody Container containerDetails) {
+        String updatedContainer = containerService.updateContainer(id, containerDetails);
         return updatedContainer != null ? ResponseEntity.ok(updatedContainer) : ResponseEntity.notFound().build();
     }
 
-    // Rota para atualizar o status de um contêiner
+    // Atualiza o status de um contêiner
     @PatchMapping("/{id}/status")
     public ResponseEntity<String> updateContainerStatus(@PathVariable Long id, @RequestBody String status) {
         String updatedContainer = containerService.updateContainerStatus(id, status);
@@ -80,7 +80,7 @@ public class ContainerController {
         return ResponseEntity.notFound().build();
     }
 
-    // Novo endpoint para buscar contêineres por ID, Status ou Cliente
+    // Busca contêineres por ID, Status ou Cliente
     @GetMapping("/buscar")
     public ResponseEntity<List<Container>> searchContainers(
             @RequestParam(required = false) Long id,

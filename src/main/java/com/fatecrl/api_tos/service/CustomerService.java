@@ -31,7 +31,7 @@ public class CustomerService {
         return (List<Customer>) customerRepository.findByName(name);
     }
 
-    public Customer updateCustomer(Long id, Customer customerDetails){
+    public String updateCustomer(Long id, Customer customerDetails){
         Customer customer = findById(id);
         if (customer != null){
             customer.setName((customerDetails.getName()));
@@ -42,9 +42,10 @@ public class CustomerService {
             customer.setCountry(customerDetails.getCountry());
             customer.setBirthdate(customerDetails.getBirthdate());
             customer.setStatus(customerDetails.getStatus());
-            return customerRepository.save(customer);
+            customerRepository.save(customer);
+            return "Cliente atualizado com sucesso.";
         }
-        return null;
+        return "Erro ao atualizar cliente";
     }
 
     public String updateCustomerStatus(Long id, String status) {

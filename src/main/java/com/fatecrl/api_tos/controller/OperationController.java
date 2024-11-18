@@ -26,6 +26,7 @@ public class OperationController {
     @Autowired
     private OperationService operationService;
 
+    // Busca operações por data ou status
     @GetMapping
     public ResponseEntity<List<Operation>> getOperations(
             @RequestParam(required = false) LocalDateTime date,
@@ -33,13 +34,15 @@ public class OperationController {
         List<Operation> operations = operationService.findByDateOrStatus(date, status);
         return ResponseEntity.ok(operations);
     }
-
+ 
+    // Criar uma nova operação
     @PostMapping
     public ResponseEntity<Operation> createOperation(@RequestBody OperationDTO operationDTO) {
         Operation operation = operationService.createOperation(operationDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(operation);
     }
 
+    // Atualiza o status da operação
     @PatchMapping("/{id}/status")
     public ResponseEntity<Operation> updateOperationStatus(
             @PathVariable Long id, @RequestParam String status) {

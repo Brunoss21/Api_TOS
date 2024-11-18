@@ -33,8 +33,8 @@ public class ShipController {
 
     // Atualizar um navio
     @PutMapping("/{id}")
-    public ResponseEntity<Ship> updateShip(@PathVariable Long id, @RequestBody Ship updatedShip) {
-        Ship ship = shipService.updateShip(id, updatedShip);
+    public ResponseEntity<String> updateShip(@PathVariable Long id, @RequestBody Ship updatedShip) {
+        String ship = shipService.updateShip(id, updatedShip);
         if (ship != null) {
             return ResponseEntity.ok(ship);
         }

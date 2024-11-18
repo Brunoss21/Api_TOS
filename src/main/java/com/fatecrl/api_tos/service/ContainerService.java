@@ -27,7 +27,7 @@ public class ContainerService {
         return containerRepository.findById(id).orElse(null);
     }
 
-    public Container updateContainer(Long id, Container containerDetails) {
+    public String updateContainer(Long id, Container containerDetails) {
         Optional<Container> optionalContainer = containerRepository.findById(id);
         if (optionalContainer.isPresent()) {
             Container container = optionalContainer.get();
@@ -36,9 +36,10 @@ public class ContainerService {
             container.setLocation(containerDetails.getLocation());
             container.setWeight(containerDetails.getWeight());
             container.setArrivalDate(containerDetails.getArrivalDate());
-            return containerRepository.save(container);
+            containerRepository.save(container);
+            return "Container atualizado com sucesso.";
         }
-        return null;
+        return "Erro ao atualizar container";
     }
 
     public String updateContainerStatus(Long id, String status) {
