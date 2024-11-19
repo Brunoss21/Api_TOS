@@ -1,10 +1,11 @@
 package com.fatecrl.api_tos.service;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import com.fatecrl.api_tos.model.Customer;
 import com.fatecrl.api_tos.repository.CustomerRepository;
@@ -15,37 +16,16 @@ public class CustomerService {
     @Autowired
     private CustomerRepository customerRepository;
 
+    public Page<Customer> findAll(Pageable pageable) {
+        return customerRepository.findAll(pageable);
+    }
+
+    public Optional<Customer> findById(Long id) {
+        return customerRepository.findById(id);
+    }
+
     public Customer save(Customer customer) {
         return customerRepository.save(customer);
-    }
-
-    public List<Customer> findAll() {
-        return customerRepository.findAll(); 
-    }
-
-    public Customer findById(Long id) {
-        return customerRepository.findById(id).orElse(null);
-    }
-
-    public List<Customer> findByName(String name) {
-        return (List<Customer>) customerRepository.findByName(name);
-    }
-
-    public String updateCustomer(Long id, Customer customerDetails){
-        Customer customer = findById(id);
-        if (customer != null){
-            customer.setName((customerDetails.getName()));
-            customer.setLastName(customerDetails.getLastName());
-            customer.setAddress(customerDetails.getAddress());
-            customer.setCity(customerDetails.getCity());
-            customer.setState(customerDetails.getState());
-            customer.setCountry(customerDetails.getCountry());
-            customer.setBirthdate(customerDetails.getBirthdate());
-            customer.setStatus(customerDetails.getStatus());
-            customerRepository.save(customer);
-            return "Cliente atualizado com sucesso.";
-        }
-        return "Erro ao atualizar cliente";
     }
 
     public String updateCustomerStatus(Long id, String status) {
@@ -59,16 +39,10 @@ public class CustomerService {
         return "Erro ao atualizar status do cliente";
     }
 
-    public String deleteCustumer(Long id) {
-        Optional<Customer> optionalCustomer = customerRepository.findById(id);
-        if (optionalCustomer.isPresent()){
-            Customer customer = optionalCustomer.get();
-            customer.setStatus("Inativo");
-            customerRepository.save(customer);
-            return "O cliente foi desativado com sucesso.";
-        }
-        return "Cliente não encontrado";
+    public void delete(Long id) {
+        customerRepository.deleteById(id);
     }
 }
+
 
 

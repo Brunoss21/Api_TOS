@@ -6,7 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @RestController
@@ -15,6 +18,43 @@ public class ShipController {
 
     @Autowired
     private ShipService shipService;
+
+     // Buscar navios pelo nome
+     @GetMapping("/search/name")
+     public ResponseEntity<Page<Ship>> findShipsByName(
+             @RequestParam String name,
+             Pageable pageable) {
+         Page<Ship> ships = shipService.findShipsByName(name, pageable);
+         return ResponseEntity.ok(ships);
+     }
+ 
+     // Buscar navios pelo status
+     @GetMapping("/search/status")
+     public ResponseEntity<Page<Ship>> findShipsByStatus(
+             @RequestParam String status,
+             Pageable pageable) {
+         Page<Ship> ships = shipService.findShipsByStatus(status, pageable);
+         return ResponseEntity.ok(ships);
+     }
+ 
+     // Buscar navios com capacidade maior que um valor
+     @GetMapping("/search/capacity")
+     public ResponseEntity<Page<Ship>> findShipsByCapacityGreaterThan(
+             @RequestParam Integer capacity,
+             Pageable pageable) {
+         Page<Ship> ships = shipService.findShipsByCapacityGreaterThan(capacity, pageable);
+         return ResponseEntity.ok(ships);
+     }
+ 
+     // Buscar navios entre duas datas de chegada
+     @GetMapping("/search/arrival-dates")
+     public ResponseEntity<Page<Ship>> findShipsByArrivalDateRange(
+             @RequestParam LocalDateTime startDate,
+             @RequestParam LocalDateTime endDate,
+             Pageable pageable) {
+         Page<Ship> ships = shipService.findShipsByArrivalDateRange(startDate, endDate, pageable);
+         return ResponseEntity.ok(ships);
+     }
 
     // Buscar um navio pelo ID
     @GetMapping("/{id}")
@@ -51,4 +91,17 @@ public class ShipController {
             return ResponseEntity.status(500).body("Erro ao desativar o navio: " + e.getMessage());
         }
     }
+
+    // Busca todos os navios com paginação
+    @GetMapping
+    public ResponseEntity<Page<Ship>> getAllShips(
+            @RequestParam(required = false) String nameShip, 
+            Pageable pageable) {
+        if (nameShip != null && !nameShip.isEmpty()) {
+            return ResponseEntity.ok(shipService.findByNameShip(nameShip, pageable));
+        } else {
+            return ResponseEntity.ok(shipService.findAll(pageable));
+        }
+    }
+    
 }

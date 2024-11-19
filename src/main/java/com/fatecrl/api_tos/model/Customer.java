@@ -1,6 +1,5 @@
 package com.fatecrl.api_tos.model;
 
-import java.time.LocalDate;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,34 +13,36 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     private Long id;
-    private String name;
-    private String lastName;
+    private String companyName;
+    private String tradeName;
+    private String cnpj;
     private String address;
     private String city;
     private String state;
     private String country;
-    private LocalDate birthdate;
     private String status;
 
     
-    public Long getId() {
-        return id;
+    public String getCompanyName() {
+        return companyName;
     }
-    public void setId(Long id) {
-        this.id = id;
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
     }
-    public String getName() {
-        return name;
+    public String getTradeName() {
+        return tradeName;
     }
-    public void setName(String name) {
-        this.name = name;
+    public void setTradeName(String tradeName) {
+        this.tradeName = tradeName;
     }
-    public String getLastName() {
-        return lastName;
+
+    public String getCnpj() {
+        return cnpj;
     }
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setCnpj(String cnpj) {
+        this.cnpj = cnpj;
     }
+
     public String getAddress() {
         return address;
     }
@@ -66,17 +67,17 @@ public class Customer {
     public void setCountry(String country) {
         this.country = country;
     }
-    public LocalDate getBirthdate() {
-        return birthdate;
-    }
-    public void setBirthdate(LocalDate birthdate) {
-        this.birthdate = birthdate;
-    }
     public String getStatus() {
         return status;
     }
     public void setStatus(String status) {
         this.status = status;
+    }
+    public Long getId() {
+        return id;
+    }
+    public void setId(Long id) {
+        this.id = id;
     }
 
     

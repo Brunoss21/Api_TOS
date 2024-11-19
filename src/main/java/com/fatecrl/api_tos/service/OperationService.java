@@ -1,17 +1,15 @@
 package com.fatecrl.api_tos.service;
 
-import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
-import com.fatecrl.api_tos.dto.OperationDTO;
-import com.fatecrl.api_tos.model.Container;
 import com.fatecrl.api_tos.model.Operation;
-import com.fatecrl.api_tos.repository.ContainerRepository; 
+
 import com.fatecrl.api_tos.repository.OperationRepository;
 
 @Service
@@ -20,45 +18,21 @@ public class OperationService {
     @Autowired
     private OperationRepository operationRepository;
 
-    @Autowired
-    private ContainerRepository containerRepository;
 
-    // Buscar operações por data ou status
-    public List<Operation> findByDateOrStatus(LocalDateTime date, String status) {
-        if (date != null) {
-            return operationRepository.findByOperationStartOrOperationEnd(date, date);
-        } else if (status != null && !status.isEmpty()) {
-            return operationRepository.findByStatus(status);
-        } else {
-            return operationRepository.findAll();
-        }
+    public Page<Operation> findAll(Pageable pageable) {
+        return operationRepository.findAll(pageable);
     }
 
-    public Operation createOperation(OperationDTO operationDTO) {
-        Operation operation = new Operation();
-        operation.setOperationType(operationDTO.getOperationType());
-        operation.setDescription(operationDTO.getDescription());
-        operation.setOperationStart(operationDTO.getOperationStart());
-        operation.setOperationEnd(operationDTO.getOperationEnd());
-        operation.setStatus(operationDTO.getStatus());
-        operation.setShipOperation(operationDTO.getShipOperation());
+    public Optional<Operation> findById(Long id) {
+        return operationRepository.findById(id);
+    }
 
-        List<Container> containers = operationDTO.getContainerIds().stream()
-            .map(id -> containerRepository.findById(id)
-                .orElseThrow())
-            .collect(Collectors.toList());
-
-        operation.setContainers(containers);
+    public Operation save(Operation operation) {
         return operationRepository.save(operation);
     }
 
-    // Atualizar status da operação
-    public Optional<Operation> updateOperationStatus(Long id, String newStatus) {
-        Optional<Operation> operation = operationRepository.findById(id);
-        operation.ifPresent(op -> {
-            op.setStatus(newStatus);
-            operationRepository.save(op);
-        });
-        return operation;
+    public void delete(Long id) {
+        operationRepository.deleteById(id);
     }
 }
+

@@ -4,8 +4,10 @@ import com.fatecrl.api_tos.model.Ship;
 import com.fatecrl.api_tos.repository.ShipRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
-import java.util.List;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -14,21 +16,27 @@ public class ShipService {
     @Autowired
     private ShipRepository shipRepository;
 
-    // Busca navios por nome
-    public List<Ship> getShipsByName(String name) {
-        return shipRepository.findByName(name);
+    // Busca navios pelo nome (com paginação)
+    public Page<Ship> findShipsByName(String name, Pageable pageable) {
+        return shipRepository.findByNameShipContainingIgnoreCase(name, pageable);
     }
 
-    // Busca navios por status ativo
-    /*public List<Ship> getShipsByActiveStatus(Boolean active) {
-        return shipRepository.findByActiveStatus(active);
-    }*/
-
-    // Busca navios com capacidade maior que X
-    public List<Ship> getShipsByCapacityGreaterThan(Integer capacity) {
-        return shipRepository.findByCapacityGreaterThan(capacity);
+    // Busca navios pelo status
+    public Page<Ship> findShipsByStatus(String status, Pageable pageable) {
+        return shipRepository.findByStatus(status, pageable);
     }
 
+    // Busca navios com capacidade maior que um valor
+    public Page<Ship> findShipsByCapacityGreaterThan(Integer capacity, Pageable pageable) {
+        return shipRepository.findByCapacityGreaterThan(capacity, pageable);
+    }
+
+    // Busca navios entre duas datas de chegada
+    public Page<Ship> findShipsByArrivalDateRange(LocalDateTime startDate, LocalDateTime endDate, Pageable pageable) {
+        return shipRepository.findByArrivalDateBetween(startDate, endDate, pageable);
+    
+    }
+   
     // Busca navio por ID
     public Optional<Ship> getShipById(Long id) {
         return shipRepository.findById(id);
@@ -64,5 +72,14 @@ public class ShipService {
         ship.setStatus("Inativo");
         shipRepository.save(ship);
     }
-}
 
+    // Busca todos os navios com paginação
+    public Page<Ship> findAll(Pageable pageable) {
+        return shipRepository.findAll(pageable);
+    }
+
+    // Busca navios por nome com paginação
+    public Page<Ship> findByNameShip(String nameShip, Pageable pageable) {
+        return shipRepository.findByNameShipContainingIgnoreCase(nameShip, pageable);
+    }
+}
