@@ -1,7 +1,7 @@
 ![image](https://github.com/user-attachments/assets/51ec19cf-f20b-4833-8858-124529059c97)
 
 # TOS API - Terminal Operations System
-Este projeto está sendo desenvolvido como parte da avaliação para a disciplina de Desenvolvimento para Servidores 2 (Projeto P2). A aplicação consiste em uma API RESTful para a gestão de operações em um terminal portuário, com foco em contêineres, embarques e clientes. A API permite realizar o controle de clientes, navios, contêineres e embarques de maneira eficiente, garantindo a maturidade e o tratamento de erros adequado.
+Este projeto foi desenvolvido como parte da avaliação para a disciplina de Desenvolvimento para Servidores 2 (Projeto P2). A aplicação consiste em uma API RESTful para a gestão de operações em um terminal portuário, com foco em contêineres, embarques e clientes. A API permite realizar o controle de clientes, navios, contêineres e embarques de maneira eficiente, garantindo a maturidade e o tratamento de erros adequado.
 
 ## Funcionalidades Específicas:
 #### Controle de Operações Portuárias: 
